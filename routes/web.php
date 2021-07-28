@@ -22,5 +22,6 @@ $router->group(['prefix' => 'api'], function () use ($router) {
     });
 
     $router->get('/series', 'SeriesControllers@index');
+    $router->get('/series/{id}', 'SeriesControllers@show');
     $router->post('/series', 'SeriesControllers@store');
 });
