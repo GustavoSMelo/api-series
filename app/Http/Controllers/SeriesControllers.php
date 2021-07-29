@@ -63,4 +63,49 @@ class SeriesControllers extends Controller {
             ], 404);
         }
     }
+
+    public function update (Request $request, int $id) {
+        try {
+            $serie = Series::find($id);
+
+            if(empty($serie)) {
+                throw new DomainException('serie not found');
+            }
+
+            /*
+                $serie->name = $request->name;
+                $serie->sinopse = $request->sinopse;
+                $serie->genre = $request->genre;
+                $serie->age_recommended = $request->age_recommended;
+             */
+
+            $serie->fill($request->all());
+
+            $serie->save();
+
+            return response()->json([
+                'message' => 'Serie updated with success '
+            ], 200);
+
+        } catch (Exception $err) {
+            return response()->json([
+                'Error' => $err->getMessage()
+            ], 404);
+        }
+    }
+
+    public function destroy (int $id) {
+
+        try {
+            Series::destroy($id);
+
+            return response()->json([
+                'message' => 'Serie deleted with success'
+            ]);
+        } catch (Exception $err) {
+            return response()->json([
+                'Error' => 'Serie not found'
+            ], 404);
+        }
+    }
 }
