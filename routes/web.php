@@ -4,17 +4,6 @@
 
 use App\Http\Controllers\SeriesControllers;
 
-/*
-|--------------------------------------------------------------------------
-| Application Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register all of the routes for an application.
-| It is a breeze. Simply tell Lumen the URIs it should respond to
-| and give it the Closure to call when that URI is requested.
-|
-*/
-
 $router->group(['prefix' => 'api'], function () use ($router) {
 
     $router->get('/', function () use ($router) {
@@ -27,9 +16,14 @@ $router->group(['prefix' => 'api'], function () use ($router) {
         $router->get('{id}', 'SeriesControllers@show');
         $router->put('{id}', 'SeriesControllers@update');
         $router->delete('{id}', 'SeriesControllers@destroy');
+        $router->get('{id}/episodeos', 'EpisodeosController@perSeries');
     });
 
     $router->group(['prefix' => 'episodeos'], function () use ($router) {
         $router->get('', 'EpisodeosController@index');
+        $router->get('{id}', 'EpisodeosController@show');
+        $router->post('', 'EpisodeosController@store');
+        $router->put('{id}', 'EpisodeosController@update');
+        $router->delete('{id}', 'EpisodeosController@destroy');
     });
 });
