@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 use DomainException;
 use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Env;
 
 abstract class BaseCustomController extends Controller{
 
@@ -31,11 +32,10 @@ abstract class BaseCustomController extends Controller{
         }
     }
 
-    public function index () {
+    public function index (Request $request) {
         try {
 
             $information = new $this->cls();
-
 
             if (count($information->all()) <= 0) {
                 return response()->json([
@@ -43,7 +43,18 @@ abstract class BaseCustomController extends Controller{
                 ]);
             }
 
-            return $information->all();
+            $offset = ($request->page - 1) * 5;
+
+            $paginate = $information->query()
+                ->offset($offset)
+                ->limit(5)
+                ->get();
+
+            foreach ($paginate as $item) {
+                $item['episodeos_link'] = env("APP_URL") . "/series/{$item->id}/episodeos";
+            }
+
+            return $paginate;
 
         } catch (Exception $err) {
             return response()->json([
