@@ -50,10 +50,6 @@ abstract class BaseCustomController extends Controller{
                 ->limit(5)
                 ->get();
 
-            foreach ($paginate as $item) {
-                $item['episodeos_link'] = env("APP_URL") . "/series/{$item->id}/episodeos";
-            }
-
             return $paginate;
 
         } catch (Exception $err) {
