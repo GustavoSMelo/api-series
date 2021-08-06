@@ -2,8 +2,6 @@
 
 /** @var \Laravel\Lumen\Routing\Router $router */
 
-use App\Http\Controllers\SeriesControllers;
-
 $router->group(['prefix' => 'api', 'middleware' => 'auth'], function () use ($router) {
 
     $router->get('/', function () use ($router) {
@@ -27,3 +25,6 @@ $router->group(['prefix' => 'api', 'middleware' => 'auth'], function () use ($ro
         $router->delete('{id}', 'EpisodeosController@destroy');
     });
 });
+
+$router->post('/api/user', 'UserController@store');
+$router->post('/api/login', 'TokenController@gerarToken');
